@@ -40,7 +40,7 @@ export default function Register() {
             icon: "success",
           });
 
-          history("/");
+          history.push("/");
         } else {
           setRegister({
             ...register,
@@ -114,4 +114,7 @@ export default function Register() {
             </div>
           </div>
         </div>
-     
+      </div>
+    </>
+  );
+}
