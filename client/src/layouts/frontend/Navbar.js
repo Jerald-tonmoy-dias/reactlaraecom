@@ -1,7 +1,53 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import React, { useState } from "react";
+import { Link, useHistory } from "react-router-dom";
+import swal from "sweetalert";
 
 export default function Navbar() {
+  const history = useHistory();
+  const logoutfunc = (e) => {
+    e.preventDefault();
+
+    axios.post(`api/logout`).then((res) => {
+      if (res.data.status == 200) {
+        localStorage.removeItem("auth_token");
+        localStorage.removeItem("auth_name");
+        swal({
+          title: "Good job!",
+          text: res.data.message,
+          icon: "success",
+        });
+        history.push("/");
+      }
+    });
+  };
+
+  let linkState = "";
+  if (localStorage.getItem("auth_name")) {
+    linkState = (
+      <li className="nav-item">
+        <button className="nav-link btn btn-danger" onClick={logoutfunc}>
+          Logout
+        </button>
+      </li>
+    );
+  } else {
+    linkState = (
+      <ul className="navbar-nav">
+        <li className="nav-item">
+          <Link className="nav-link" to="/login">
+            Login
+          </Link>
+        </li>
+        <li className="nav-item">
+          <Link className="nav-link" to="/register">
+            Register
+          </Link>
+        </li>
+      </ul>
+    );
+  }
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark sticky">
       <div className="container">
@@ -27,20 +73,11 @@ export default function Navbar() {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/login">
-                Login
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/register">
-                Register
-              </Link>
-            </li>
-            <li className="nav-item">
               <Link className="nav-link" to="/admin">
                 Dashboard
               </Link>
             </li>
+            {linkState}
           </ul>
         </div>
       </div>

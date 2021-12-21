@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+
+    // register
     public function register(Request $req) {
      
         $validator = Validator::make($req->all(), [
@@ -46,6 +48,7 @@ class AuthController extends Controller
 
     }
 
+    // login
     public function login(Request $req) {
      
         $validator = Validator::make($req->all(), [
@@ -80,5 +83,14 @@ class AuthController extends Controller
        ]);
             }
         }
+    }
+
+    // logout
+    public function logout() {
+        auth()->user()->tokens()->delete();
+        return response()->json([
+            'status' => 200,
+            'message' => 'Log out successfully',
+   ]);
     }
 }
