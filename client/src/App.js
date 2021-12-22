@@ -10,6 +10,7 @@ import MastarLayout from "./layouts/admin/MastarLayout";
 import Home from "./components/frontend/Home";
 import Register from "./components/frontend/auth/Register";
 import Login from "./components/frontend/auth/Login";
+import AdminPrivateRoute from "./AdminPrivateRoute";
 function App() {
   // default settings
   axios.defaults.baseURL = "http://127.0.0.1:8000/";
@@ -29,15 +30,15 @@ function App() {
       <Router>
         <Switch>
           {/* for dashboard route */}
-          <Route
+          {/* <Route
             path="/admin"
             name="Admin"
             render={(props) => <MastarLayout {...props} />}
-          />
+          /> */}
+
+          <AdminPrivateRoute path="/admin" name="Admin" />
           {/* for apps route */}
           <Route path={"/"} exact component={Home} />
-          {/* <Route path={"/register"} exact component={Register} />
-          <Route path={"/login"} exact component={Login} /> */}
 
           <Route path="/login">
             {localStorage.getItem("auth_token") ? (

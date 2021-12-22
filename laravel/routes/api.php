@@ -20,6 +20,11 @@ Route::post('/login',[AuthController::class,'login']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout',[AuthController::class,'logout']);
+    Route::get('checkAuthinticate',function(){
+        return response()->json([ 
+            'status' => 200,
+        'message' => 'You are in',],200);
+    });
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
