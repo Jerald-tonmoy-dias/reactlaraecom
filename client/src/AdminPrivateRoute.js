@@ -36,6 +36,31 @@ export default function AdminPrivateRoute({ ...rest }) {
     }
   );
 
+  axios.interceptors.response.use(
+    function (response) {
+      return response;
+    },
+    function (error) {
+      if (error.response.status == 403) {
+        swal({
+          title: "Access Denied",
+          text: error.response.data.message,
+          icon: "warning",
+        });
+        history.push("/403");
+      } else if (error.response.status == 404) {
+        swal({
+          title: "Page not found",
+          text: error.response.data.message,
+          icon: "warning",
+        });
+        history.push("/404");
+      }
+
+      return Promise.reject(error);
+    }
+  );
+
   if (Loading) {
     return <h2>Loading...</h2>;
   }

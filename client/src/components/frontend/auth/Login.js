@@ -35,7 +35,11 @@ export default function Login() {
             text: res.data.message,
             icon: "success",
           });
-          history.push("/");
+          if (res.data.role_as == "admin") {
+            history.push("/admin");
+          } else {
+            history.push("/");
+          }
         } else if (res.data.status == 401) {
           swal({
             title: "Warning",

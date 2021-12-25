@@ -6,11 +6,13 @@ import {
   Route,
   Switch,
 } from "react-router-dom";
-import MastarLayout from "./layouts/admin/MastarLayout";
+
 import Home from "./components/frontend/Home";
 import Register from "./components/frontend/auth/Register";
 import Login from "./components/frontend/auth/Login";
 import AdminPrivateRoute from "./AdminPrivateRoute";
+import Error404 from "./error/404";
+import Error403 from "./error/403";
 function App() {
   // default settings
   axios.defaults.baseURL = "http://127.0.0.1:8000/";
@@ -29,17 +31,12 @@ function App() {
     <div className="App">
       <Router>
         <Switch>
-          {/* for dashboard route */}
-          {/* <Route
-            path="/admin"
-            name="Admin"
-            render={(props) => <MastarLayout {...props} />}
-          /> */}
-
+          {/* private route */}
           <AdminPrivateRoute path="/admin" name="Admin" />
           {/* for apps route */}
           <Route path={"/"} exact component={Home} />
-
+          <Route path={"/404"} component={Error404} />
+          <Route path={"/403"} component={Error403} />
           <Route path="/login">
             {localStorage.getItem("auth_token") ? (
               <Redirect to="/" />
