@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\CategoryController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -19,12 +21,15 @@ Route::post('/login', [AuthController::class, 'login']);
 
 // for admin
 Route::middleware(['auth:sanctum', 'isAdminApi'])->group(function () {
+    // check auth user
     Route::get('checkAuthinticate', function () {
         return response()->json([
             'status' => 200,
             'message' => 'You are in',
         ], 200);
     });
+
+    Route::post('/store-category', [CategoryController::class, 'store']);
 });
 
 // for normal user

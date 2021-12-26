@@ -19,6 +19,12 @@ export default function Sidebar() {
             </div>
             Profile
           </Link>
+          <Link className="nav-link" to="/admin/add-category">
+            <div className="sb-nav-link-icon">
+              <i className="fas fa-tachometer-alt"></i>
+            </div>
+            Add Category
+          </Link>
           <div className="sb-sidenav-menu-heading">Interface</div>
           <Link
             className="nav-link collapsed"

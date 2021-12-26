@@ -8,6 +8,7 @@ export default function AdminPrivateRoute({ ...rest }) {
   const history = useHistory();
   const [Authinticate, setAuthinticate] = useState(false);
   const [Loading, setLoading] = useState(true);
+
   useEffect(() => {
     axios.get("api/checkAuthinticate").then((res) => {
       if (res.status == 200) {
@@ -36,6 +37,7 @@ export default function AdminPrivateRoute({ ...rest }) {
     }
   );
 
+  //  error
   axios.interceptors.response.use(
     function (response) {
       return response;
@@ -62,7 +64,7 @@ export default function AdminPrivateRoute({ ...rest }) {
   );
 
   if (Loading) {
-    return <h2>Loading...</h2>;
+    return <h2 className="text-center mt-5">Loading...</h2>;
   }
   return (
     <Route
