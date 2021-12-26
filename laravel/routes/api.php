@@ -29,6 +29,7 @@ Route::middleware(['auth:sanctum', 'isAdminApi'])->group(function () {
         ], 200);
     });
 
+    Route::get('/view-category', [CategoryController::class, 'index']);
     Route::post('/store-category', [CategoryController::class, 'store']);
 });
 

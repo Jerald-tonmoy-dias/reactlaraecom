@@ -65,7 +65,11 @@ export default function AddCategory() {
       <div className="container-fluid px-4">
         <h2 className="my-4">Add Category</h2>
         {display_error.map((item) => {
-          return <p className="my-2">{item}</p>;
+          return (
+            <p className="my-2" key={item}>
+              {item}
+            </p>
+          );
         })}
         <form onSubmit={categorySubmit} id="CATEGORY_FORM">
           <div className="p-4 card border">
