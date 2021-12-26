@@ -74,10 +74,10 @@ export default function AddCategory() {
         <form onSubmit={categorySubmit} id="CATEGORY_FORM">
           <div className="p-4 card border">
             {/* nav */}
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
-              <li class="nav-item" role="presentation">
+            <ul className="nav nav-tabs" id="myTab" role="tablist">
+              <li className="nav-item" role="presentation">
                 <button
-                  class="nav-link active"
+                  className="nav-link active"
                   id="home-tab"
                   data-bs-toggle="tab"
                   data-bs-target="#home"
@@ -89,9 +89,9 @@ export default function AddCategory() {
                   Home
                 </button>
               </li>
-              <li class="nav-item" role="presentation">
+              <li className="nav-item" role="presentation">
                 <button
-                  class="nav-link"
+                  className="nav-link"
                   id="seo-tab"
                   data-bs-toggle="tab"
                   data-bs-target="#seo"
@@ -105,9 +105,9 @@ export default function AddCategory() {
               </li>
             </ul>
             {/* main content */}
-            <div class="tab-content" id="myTabContent">
+            <div className="tab-content" id="myTabContent">
               <div
-                class="tab-pane fade show active card-body border"
+                className="tab-pane fade show active card-body border"
                 id="home"
                 role="tabpanel"
                 aria-labelledby="home-tab"
@@ -161,7 +161,7 @@ export default function AddCategory() {
                 {/* input end*/}
               </div>
               <div
-                class="tab-pane fade card-body border"
+                className="tab-pane fade card-body border"
                 id="seo"
                 role="tabpanel"
                 aria-labelledby="seo-tab"

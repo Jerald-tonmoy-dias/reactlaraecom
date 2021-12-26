@@ -1,6 +1,7 @@
 import { Component } from "react/cjs/react.production.min";
 import AddCategory from "../components/admin/AddCategory";
 import Dashboard from "../components/admin/Dashboard";
+import EditCategory from "../components/admin/EditCategory";
 import Profile from "../components/admin/Profile";
 import ViewCategory from "../components/admin/ViewCategory";
 
@@ -29,6 +30,12 @@ const routesFile = [
     exact: true,
     name: "ViewCategory",
     component: ViewCategory,
+  },
+  {
+    path: "/admin/edit-category/:id",
+    exact: true,
+    name: "EditCategory",
+    component: EditCategory,
   },
 ];
 
