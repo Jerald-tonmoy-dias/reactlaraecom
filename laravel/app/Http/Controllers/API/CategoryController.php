@@ -125,4 +125,14 @@ class CategoryController extends Controller
             ]);
         }
     }
+
+    // allCategory
+    public function allCategory()
+    {
+        $category = Category::where('status', '0')->get();
+        return response()->json([
+            'status' => 200,
+            'category' =>  $category
+        ]);
+    }
 }
