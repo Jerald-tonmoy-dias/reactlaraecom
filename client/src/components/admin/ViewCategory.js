@@ -16,6 +16,35 @@ export default function ViewCategory() {
     });
   }, []);
 
+  // handle delete
+  const handleDelete = (e, id) => {
+    e.preventDefault();
+
+    const thisClicked = e.currentTarget;
+    thisClicked.innerText = "Deleting";
+
+    axios.delete(`api/delete-category/${id}`).then((res) => {
+      if (res.data.status == 200) {
+        swal({
+          title: "Success",
+          text: res.data.message,
+          icon: "success",
+        });
+
+        thisClicked.closest("tr").remove();
+      } else if (res.data.status == 404) {
+        swal({
+          title: "Success",
+          text: res.data.message,
+          icon: "success",
+        });
+
+        thisClicked.innerText = "Delete";
+      }
+    });
+  };
+
+  // table input
   let viewCategory_HTML_Table = "";
 
   if (loading) {
@@ -38,7 +67,11 @@ export default function ViewCategory() {
               </Link>
             </td>
             <td>
-              <button type="button" className="btn btn-danger btn-sm">
+              <button
+                type="button"
+                onClick={(e) => handleDelete(e, item.id)}
+                className="btn btn-danger btn-sm"
+              >
                 Delete
               </button>
             </td>
