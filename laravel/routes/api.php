@@ -40,6 +40,7 @@ Route::middleware(['auth:sanctum', 'isAdminApi'])->group(function () {
 
     //product route
     Route::post('/store-product', [ProductController::class, 'store']);
+    Route::get('/view-product', [ProductController::class, 'index']);
 });
 
 // for normal user

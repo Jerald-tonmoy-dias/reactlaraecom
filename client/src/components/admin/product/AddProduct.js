@@ -92,7 +92,7 @@ export default function AddProduct() {
         <div className="card-header d-flex justify-content-between align-items-center">
           <h2 className="my-4">Add Product</h2>
           <Link
-            to="/admin/view-category"
+            to="/admin/view-product"
             className="btn btn-primary btn-sm px-4 text-capitalize"
           >
             Back to product list

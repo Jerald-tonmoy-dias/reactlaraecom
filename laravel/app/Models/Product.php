@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Category;
 
 class Product extends Model
 {
@@ -26,4 +27,12 @@ class Product extends Model
         'popular',
         'status',
     ];
+
+    // getting all the value of category table
+    // relationship
+    protected $with = ['category'];
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id', 'id');
+    }
 }
