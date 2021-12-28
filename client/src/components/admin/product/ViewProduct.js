@@ -71,7 +71,7 @@ export default function ViewProduct() {
             <td>
               <Link
                 className="btn btn-success btn-sm"
-                to={`edit-product/${item.id}`}
+                to={`/admin/edit-product/${item.id}`}
               >
                 Edit
               </Link>

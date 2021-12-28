@@ -6,6 +6,7 @@ import EditCategory from "../components/admin/category/EditCategory";
 import ViewCategory from "../components/admin/category/ViewCategory";
 import AddProduct from "../components/admin/product/AddProduct";
 import ViewProduct from "../components/admin/product/ViewProduct";
+import EditProduct from "../components/admin/product/EditProduct";
 
 const routesFile = [
   { path: "/admin", exact: true, name: "Admin" },
@@ -50,6 +51,12 @@ const routesFile = [
     exact: true,
     name: "ViewProduct",
     component: ViewProduct,
+  },
+  {
+    path: "/admin/edit-product/:id",
+    exact: true,
+    name: "EditProduct",
+    component: EditProduct,
   },
 ];
 
