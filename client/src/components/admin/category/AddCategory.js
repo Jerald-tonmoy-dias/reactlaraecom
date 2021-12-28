@@ -43,8 +43,7 @@ export default function AddCategory() {
         });
 
         document.getElementById("CATEGORY_FORM").reset();
-      }
-      if (res.data.status == 400) {
+      } else if (res.data.status == 400) {
         setCategoryInput({ ...categoryInput, errors: res.data.errors });
       }
     });

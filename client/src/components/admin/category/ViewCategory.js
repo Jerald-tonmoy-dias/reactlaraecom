@@ -50,10 +50,10 @@ export default function ViewCategory() {
   if (loading) {
     return <h2>Loading Category....</h2>;
   } else {
-    viewCategory_HTML_Table = categorylist.map((item) => {
+    viewCategory_HTML_Table = categorylist.map((item, index) => {
       return (
         <>
-          <tr key={item.id}>
+          <tr key={index}>
             <td>{item.id}</td>
             <td>{item.name}</td>
             <td>{item.slug}</td>

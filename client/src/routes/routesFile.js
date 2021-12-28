@@ -1,9 +1,11 @@
 import { Component } from "react/cjs/react.production.min";
-import AddCategory from "../components/admin/AddCategory";
 import Dashboard from "../components/admin/Dashboard";
-import EditCategory from "../components/admin/EditCategory";
 import Profile from "../components/admin/Profile";
-import ViewCategory from "../components/admin/ViewCategory";
+import AddCategory from "../components/admin/category/AddCategory";
+import EditCategory from "../components/admin/category/EditCategory";
+import ViewCategory from "../components/admin/category/ViewCategory";
+import AddProduct from "../components/admin/product/AddProduct";
+import ViewProduct from "../components/admin/product/ViewProduct";
 
 const routesFile = [
   { path: "/admin", exact: true, name: "Admin" },
@@ -36,6 +38,18 @@ const routesFile = [
     exact: true,
     name: "EditCategory",
     component: EditCategory,
+  },
+  {
+    path: "/admin/add-product",
+    exact: true,
+    name: "AddProduct",
+    component: AddProduct,
+  },
+  {
+    path: "/admin/view-product",
+    exact: true,
+    name: "ViewProduct",
+    component: ViewProduct,
   },
 ];
 

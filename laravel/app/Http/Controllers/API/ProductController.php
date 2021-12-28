@@ -30,7 +30,6 @@ class ProductController extends Controller
                 'errors' => $validator->messages(),
             ]);
         } else {
-
             $product = new Product;
             $product->category_id = $req->input('category_id');
             $product->meta_title = $req->input('meta_title');
@@ -43,6 +42,7 @@ class ProductController extends Controller
             $product->selling_price = $req->input('selling_price');
             $product->original_price = $req->input('original_price');
             $product->qty = $req->input('qty');
+
             if ($req->hasFile('image')) {
                 $file = $req->file('image');
                 $extension = $file->getClientOriginalExtension();
@@ -50,11 +50,11 @@ class ProductController extends Controller
                 $file->move('uploads/product/', $filename);
                 $product->image = 'uploads/product/' . $filename;
             }
+
             $product->featured = $req->input('featured') == true ? '1' : '0';
             $product->popular = $req->input('popular') == true ? '1' : '0';
             $product->status = $req->input('status') == true ? '1' : '0';
             $product->save();
-
             return response()->json([
                 'status' => 200,
                 'message' => 'Product added Succefully'

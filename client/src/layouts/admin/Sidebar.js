@@ -31,6 +31,38 @@ export default function Sidebar() {
             </div>
             View Category
           </Link>
+
+          <Link
+            className="nav-link collapsed"
+            to="#"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapseProducts"
+            aria-expanded="false"
+            aria-controls="collapseProducts"
+          >
+            <div className="sb-nav-link-icon">
+              <i className="fas fa-columns"></i>
+            </div>
+            Products
+            <div className="sb-sidenav-collapse-arrow">
+              <i className="fas fa-angle-down"></i>
+            </div>
+          </Link>
+          <div
+            className="collapse"
+            id="collapseProducts"
+            aria-labelledby="headingOne"
+            data-bs-parent="#sidenavAccordion"
+          >
+            <nav className="sb-sidenav-menu-nested nav">
+              <Link className="nav-link" to="/admin/add-product">
+                Add Product
+              </Link>
+              <Link className="nav-link" to="/admin/view-product">
+                View Product
+              </Link>
+            </nav>
+          </div>
           <div className="sb-sidenav-menu-heading">Interface</div>
           <Link
             className="nav-link collapsed"
