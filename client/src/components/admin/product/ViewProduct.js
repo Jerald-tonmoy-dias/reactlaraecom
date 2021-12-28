@@ -54,6 +54,12 @@ export default function ViewProduct() {
     return <h2>Loading Product....</h2>;
   } else {
     viewProduct_HTML_Table = productList.map((item, idx) => {
+      let productStatus = "";
+      if (item.status == 1) {
+        productStatus = "Hidden";
+      } else {
+        productStatus = "Shown";
+      }
       return (
         <>
           <tr key={idx}>
@@ -76,15 +82,7 @@ export default function ViewProduct() {
                 Edit
               </Link>
             </td>
-            <td>
-              <button
-                type="button"
-                onClick={(e) => handleDelete(e, item.id)}
-                className="btn btn-danger btn-sm"
-              >
-                Delete
-              </button>
-            </td>
+            <td>{productStatus}</td>
           </tr>
         </>
       );
@@ -114,7 +112,7 @@ export default function ViewProduct() {
                   <th>Selling Price</th>
                   <th>Image</th>
                   <th>Edit</th>
-                  <th>Delete</th>
+                  <th>Product status</th>
                 </tr>
               </thead>
               <tbody>{viewProduct_HTML_Table}</tbody>
