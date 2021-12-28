@@ -8,11 +8,18 @@ export default function EditProduct(props) {
   const [picture, setPicture] = useState([]);
   const [error, setError] = useState([]);
   const [productInput, setProductInput] = useState([]);
+  const [checkboxes, setCheckboxes] = useState([]);
   const [loading, setLoading] = useState([]);
   const history = useHistory();
+
   const handleInput = (e) => {
     e.persist();
     setProductInput({ ...productInput, [e.target.name]: e.target.value });
+  };
+
+  const handleCheckboxes = (e) => {
+    e.persist();
+    setCheckboxes({ ...checkboxes, [e.target.name]: e.target.checked });
   };
 
   const handleImage = (e) => {
@@ -31,6 +38,7 @@ export default function EditProduct(props) {
     axios.get(`api/edit-product/${product_id}`).then((res) => {
       if (res.data.status == 200) {
         setProductInput(res.data.product);
+        setCheckboxes(res.data.product);
       } else if (res.data.status == 404) {
         swal({
           title: "Error",
@@ -64,9 +72,9 @@ export default function EditProduct(props) {
     formData.append("original_price", productInput.original_price);
     formData.append("qty", productInput.qty);
     formData.append("brand", productInput.brand);
-    formData.append("featured", productInput.featured);
-    formData.append("popular", productInput.popular);
-    formData.append("status", productInput.status);
+    formData.append("featured", checkboxes.featured ? "1" : "0");
+    formData.append("popular", checkboxes.popular ? "1" : "0");
+    formData.append("status", checkboxes.status ? "1" : "0");
 
     let product_id = props.match.params.id;
 
@@ -342,8 +350,8 @@ export default function EditProduct(props) {
                       type="checkbox"
                       placeholder="featured"
                       className="w-50 h-50"
-                      onChange={handleInput}
-                      value={productInput.featured}
+                      onChange={handleCheckboxes}
+                      defaultChecked={checkboxes.featured == 1 ? true : false}
                     />
                   </div>
                   <div className="col-md-4 form-group mb-3">
@@ -353,8 +361,8 @@ export default function EditProduct(props) {
                       type="checkbox"
                       placeholder="popular"
                       className="w-50 h-50"
-                      onChange={handleInput}
-                      value={productInput.popular}
+                      onChange={handleCheckboxes}
+                      defaultChecked={checkboxes.popular == 1 ? true : false}
                     />
                   </div>
                   <div className="col-md-4 form-group mb-3">
@@ -364,8 +372,8 @@ export default function EditProduct(props) {
                       type="checkbox"
                       placeholder="status"
                       className="w-50 h-50"
-                      onChange={handleInput}
-                      value={productInput.status}
+                      onChange={handleCheckboxes}
+                      defaultChecked={checkboxes.status == 1 ? true : false}
                     />
                   </div>
                 </div>

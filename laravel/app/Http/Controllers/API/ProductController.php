@@ -136,9 +136,9 @@ class ProductController extends Controller
                     $product->image = 'uploads/product/' . $filename;
                 }
 
-                $product->featured = $req->input('featured') == true ? '1' : '0';
-                $product->popular = $req->input('popular') == true ? '1' : '0';
-                $product->status = $req->input('status') == true ? '1' : '0';
+                $product->featured = $req->input('featured');
+                $product->popular = $req->input('popular');
+                $product->status = $req->input('status');
                 $product->save();
                 return response()->json([
                     'status' => 200,
