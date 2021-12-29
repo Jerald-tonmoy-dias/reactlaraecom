@@ -13,6 +13,8 @@ import Login from "./components/frontend/auth/Login";
 import AdminPrivateRoute from "./AdminPrivateRoute";
 import Error404 from "./error/404";
 import Error403 from "./error/403";
+import FrontendPublicRoute from "./FrontendPublicRoute";
+import FrontendLayout from "./layouts/frontend/FrontendLayout";
 function App() {
   // default settings
   axios.defaults.baseURL = "http://127.0.0.1:8000/";
@@ -33,8 +35,12 @@ function App() {
         <Switch>
           {/* private route */}
           <AdminPrivateRoute path="/admin" name="Admin" />
+
+          {/* two routes works same. testing purpose */}
+          {/* <FrontendPublicRoute /> */}
+          <FrontendLayout />
           {/* for apps route */}
-          <Route path={"/"} exact component={Home} />
+
           <Route path={"/404"} component={Error404} />
           <Route path={"/403"} component={Error403} />
           <Route path="/login">
