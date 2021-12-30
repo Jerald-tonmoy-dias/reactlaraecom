@@ -7,12 +7,20 @@ export default function Collection() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get("api/get-category-collection").then((res) => {
-      if (res.data.status == 200) {
-        setCategory(res.data.category);
-        setLoading(false);
-      }
-    });
+    let isMounted = true;
+
+    if (isMounted) {
+      axios.get("api/get-category-collection").then((res) => {
+        if (res.data.status == 200) {
+          setCategory(res.data.category);
+          setLoading(false);
+        }
+      });
+    }
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   let viewcategoryList = "";
@@ -49,9 +57,9 @@ export default function Collection() {
     <>
       <div className="container mt-5">
         <nav aria-label="breadcrumb" className="bg-warning py-3 px-4">
-          <ol class="breadcrumb">
+          <ol className="breadcrumb">
             <li
-              class="breadcrumb-item active text-white display-5"
+              className="breadcrumb-item active text-white display-5"
               aria-current="page"
             >
               Home

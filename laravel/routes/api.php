@@ -24,6 +24,7 @@ Route::post('/login', [AuthController::class, 'login']);
 
 // public route
 Route::get('/get-category-collection', [FrontendController::class, 'category']);
+Route::get('/get-frontend-products-data/{slug}', [FrontendController::class, 'product']);
 
 
 // for admin
