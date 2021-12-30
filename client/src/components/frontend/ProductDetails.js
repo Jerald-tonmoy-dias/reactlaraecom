@@ -6,7 +6,17 @@ import { BASE_URL } from "../../Base_url";
 export default function ProductDetails(props) {
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(true);
-  const productCount = product.length;
+  const [quantity, setQuantity] = useState(1);
+
+  const handleIncreament = () => {
+    setQuantity((prevCount) => prevCount + 1);
+  };
+
+  const handleDecreament = () => {
+    if (quantity > 1) {
+      setQuantity((prevCount) => prevCount - 1);
+    }
+  };
   const history = useHistory;
   useEffect(() => {
     let isMounted = true;
@@ -55,15 +65,21 @@ export default function ProductDetails(props) {
           <div className="row">
             <div className="col-md-3 mt-3">
               <div className="input-group d-flex">
-                <button type="button" className="input-group-text">
+                <button
+                  type="button"
+                  className="input-group-text"
+                  onClick={() => handleDecreament()}
+                >
                   -
                 </button>
-                <input
-                  type="text"
-                  className="form-control text-center"
-                  value="1"
-                />
-                <button type="button" className="input-group-text">
+                <span type="text" className="form-control text-center">
+                  {quantity}
+                </span>
+                <button
+                  type="button"
+                  className="input-group-text"
+                  onClick={() => handleIncreament()}
+                >
                   +
                 </button>
               </div>
