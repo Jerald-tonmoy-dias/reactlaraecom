@@ -60,10 +60,10 @@ export default function ViewFrontendProduct(props) {
           <div className="col-lg-4 mb-4" key={index}>
             <div className="card">
               <div className="card-body">
-                <Link to={`/single-collection/${item.slug}`}>
+                <Link to={`/collection/${item.category.slug}/${item.slug}`}>
                   <img src={`${BASE_URL}${item.image}`} className="w-100" />
                 </Link>
-                <Link to={`/single-collection/${item.slug}`}>
+                <Link to={`/collection/${item.category.slug}/${item.slug}`}>
                   <h4>{item.name}</h4>
                 </Link>
               </div>
