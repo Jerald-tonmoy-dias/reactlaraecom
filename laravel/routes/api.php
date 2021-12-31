@@ -30,6 +30,7 @@ Route::get('/view-product/{category_slug}/{product_slug}', [FrontendController::
 
 // cart api
 Route::post('/add-to-cart', [CartController::class, 'addtoCart']);
+Route::get('/cart-data', [CartController::class, 'viewcart']);
 
 
 // for admin

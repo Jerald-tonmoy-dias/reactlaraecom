@@ -200,10 +200,9 @@ export default function Sidebar() {
           </Link>
         </div>
       </div>
-      <div className="sb-sidenav-footer">
-        <div className="small">Logged in as:</div>
-        Start Bootstrap
-      </div>
+      <Link to={"/"} className="sb-sidenav-footer text-white">
+        Home
+      </Link>
     </nav>
   );
 }

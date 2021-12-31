@@ -35,10 +35,11 @@ export default function ProductDetails(props) {
           icon: "success",
         });
       } else if (res.data.status == 409) {
+        // already product added successfully
         swal({
-          title: "Warning",
+          title: "success",
           text: res.data.message,
-          icon: "warning",
+          icon: "success",
         });
       } else if (res.data.status == 401) {
         swal({
