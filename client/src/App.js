@@ -33,16 +33,6 @@ function App() {
     <div className="App">
       <Router>
         <Switch>
-          {/* private route */}
-          <AdminPrivateRoute path="/admin" name="Admin" />
-
-          {/* two routes works same. testing purpose */}
-          {/* <FrontendPublicRoute /> */}
-          <FrontendLayout />
-          {/* for apps route */}
-
-          <Route path={"/404"} component={Error404} />
-          <Route path={"/403"} component={Error403} />
           <Route path="/login">
             {localStorage.getItem("auth_token") ? (
               <Redirect to="/" />
@@ -58,6 +48,16 @@ function App() {
               <Register />
             )}
           </Route>
+          {/* private route */}
+          <AdminPrivateRoute path="/admin" name="Admin" />
+
+          {/* two routes works same. testing purpose */}
+          {/* <FrontendPublicRoute /> */}
+          <FrontendLayout />
+          {/* for apps route */}
+
+          <Route path={"/404"} component={Error404} />
+          <Route path={"/403"} component={Error403} />
         </Switch>
       </Router>
     </div>

@@ -8,6 +8,7 @@ export default function ProductDetails(props) {
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
 
+  //   handle increment decrement option
   const handleIncreament = () => {
     setQuantity((prevCount) => prevCount + 1);
   };
@@ -17,6 +18,45 @@ export default function ProductDetails(props) {
       setQuantity((prevCount) => prevCount - 1);
     }
   };
+
+  //   handle add to cart
+  const handleAddTOCart = (e) => {
+    e.preventDefault();
+    const data = {
+      product_id: product.id,
+      product_qty: quantity,
+    };
+
+    axios.post("api/add-to-cart", data).then((res) => {
+      if (res.data.status == 201) {
+        swal({
+          title: "Success",
+          text: res.data.message,
+          icon: "success",
+        });
+      } else if (res.data.status == 409) {
+        swal({
+          title: "Warning",
+          text: res.data.message,
+          icon: "warning",
+        });
+      } else if (res.data.status == 401) {
+        swal({
+          title: "error",
+          text: res.data.message,
+          icon: "error",
+        });
+      } else if (res.data.status == 404) {
+        swal({
+          title: "Warning",
+          text: res.data.message,
+          icon: "warning",
+        });
+      }
+      //   console.log("response from server", res);
+    });
+  };
+
   const history = useHistory;
   useEffect(() => {
     let isMounted = true;
@@ -85,7 +125,11 @@ export default function ProductDetails(props) {
               </div>
             </div>
             <div className="col-md-3 mt-3">
-              <button type="button" className="btn btn-primary w-100">
+              <button
+                type="submit"
+                onClick={handleAddTOCart}
+                className="btn btn-primary w-100"
+              >
                 Add to cart
               </button>
             </div>
