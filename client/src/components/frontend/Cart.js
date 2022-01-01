@@ -17,54 +17,38 @@ export default function Cart(props) {
     history.push("/");
   }
   //   handle increment decrement option
-  const handleIncreament = () => {
-    setQuantity((prevCount) => prevCount + 1);
+  const handleDecreament = (cart_idd) => {
+    setCart((cart) =>
+      cart.map((item) =>
+        cart_idd === item.id
+          ? {
+              ...item,
+              product_qty: item.product_qty - (item.product_qty > 1 ? 1 : 0),
+            }
+          : item
+      )
+    );
+    updatecartQuantity(cart_idd, "dec");
   };
 
-  const handleDecreament = () => {
-    if (quantity > 1) {
-      setQuantity((prevCount) => prevCount - 1);
-    }
+  const handleIncreament = (cart_idd) => {
+    setCart((cart) =>
+      cart.map((item) =>
+        cart_idd === item.id
+          ? { ...item, product_qty: item.product_qty + 1 }
+          : item
+      )
+    );
+    updatecartQuantity(cart_idd, "inc");
   };
 
-  //   handle add to cart
-  // const handleAddTOCart = (e) => {
-  //   e.preventDefault();
-  //   const data = {
-  //     product_id: product.id,
-  //     product_qty: quantity,
-  //   };
-
-  //   axios.post("api/add-to-cart", data).then((res) => {
-  //     if (res.data.status == 201) {
-  //       swal({
-  //         title: "Success",
-  //         text: res.data.message,
-  //         icon: "success",
-  //       });
-  //     } else if (res.data.status == 409) {
-  //       // already product added successfully
-  //       swal({
-  //         title: "success",
-  //         text: res.data.message,
-  //         icon: "success",
-  //       });
-  //     } else if (res.data.status == 401) {
-  //       swal({
-  //         title: "error",
-  //         text: res.data.message,
-  //         icon: "error",
-  //       });
-  //     } else if (res.data.status == 404) {
-  //       swal({
-  //         title: "Warning",
-  //         text: res.data.message,
-  //         icon: "warning",
-  //       });
-  //     }
-  //     //   console.log("response from server", res);
-  //   });
-  // };
+  const updatecartQuantity = (cart_idd, scope) => {
+    axios.put(`api/updatecart-qty/${cart_idd}/${scope}`).then((res) => {
+      if (res.data.status == 201) {
+        return "okk";
+      }
+    });
+  };
 
   useEffect(() => {
     let isMounted = true;
@@ -133,7 +117,7 @@ export default function Cart(props) {
                         <button
                           type="button"
                           className="input-group-text"
-                          onClick={() => handleDecreament()}
+                          onClick={() => handleDecreament(item.id)}
                         >
                           -
                         </button>
@@ -143,16 +127,15 @@ export default function Cart(props) {
                         <button
                           type="button"
                           className="input-group-text"
-                          onClick={() => handleIncreament()}
+                          onClick={() => handleIncreament(item.id)}
                         >
                           +
                         </button>
                       </div>
                     </td>
                     <td>
-                      {item.product_qty == 1
-                        ? item.product.selling_price
-                        : item.product.selling_price * item.product_qty}
+                      {parseInt(item.product.selling_price) *
+                        parseInt(item.product_qty)}
                     </td>
                     <td>
                       <button className="btn-sm btn-danger" type="button">
