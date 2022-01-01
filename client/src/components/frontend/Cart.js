@@ -50,6 +50,29 @@ export default function Cart(props) {
     });
   };
 
+  const handledeleteCart = (e, cart_idd) => {
+    e.preventDefault();
+    let thisClicked = e.currentTarget;
+    thisClicked.innerText = "removing";
+    axios.delete(`api/delete-cart-item/${cart_idd}`).then((res) => {
+      if (res.data.status == 200) {
+        swal({
+          title: "Success",
+          text: res.data.message,
+          icon: "success",
+        });
+        thisClicked.closest("tr").remove();
+      } else if (res.data.status == 404) {
+        swal({
+          title: "Warning",
+          text: res.data.message,
+          icon: "warning",
+        });
+        thisClicked.innerText = "remove";
+      }
+    });
+  };
+
   useEffect(() => {
     let isMounted = true;
     if (isMounted) {
@@ -138,7 +161,11 @@ export default function Cart(props) {
                         parseInt(item.product_qty)}
                     </td>
                     <td>
-                      <button className="btn-sm btn-danger" type="button">
+                      <button
+                        onClick={(e) => handledeleteCart(e, item.id)}
+                        className="btn-sm btn-danger"
+                        type="button"
+                      >
                         remove
                       </button>
                     </td>

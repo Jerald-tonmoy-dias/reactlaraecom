@@ -32,6 +32,7 @@ Route::get('/view-product/{category_slug}/{product_slug}', [FrontendController::
 Route::post('/add-to-cart', [CartController::class, 'addtoCart']);
 Route::get('/cart-data', [CartController::class, 'viewcart']);
 Route::put('/updatecart-qty/{cart_idd}/{scope}', [CartController::class, 'updateQty']);
+Route::delete('/delete-cart-item/{cart_idd}', [CartController::class, 'deleteCart']);
 
 
 // for admin
