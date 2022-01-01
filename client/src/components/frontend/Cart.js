@@ -8,6 +8,7 @@ export default function Cart(props) {
   const [loading, setLoading] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const history = useHistory;
+  let totalPrice = 0;
   if (!localStorage.getItem("auth_token")) {
     swal({
       title: "Error",
@@ -123,6 +124,9 @@ export default function Cart(props) {
           </thead>
           <tbody>
             {cart.map((item, index) => {
+              totalPrice +=
+                parseInt(item.product.selling_price) *
+                parseInt(item.product_qty);
               return (
                 <>
                   <tr key={index}>
@@ -201,6 +205,22 @@ export default function Cart(props) {
         </nav>
 
         <div className="card mt-4">{cart_HTML}</div>
+        <div className="row justify-content-end mt-4">
+          <div className="col-12 col-md-4">
+            <div className="card p-4">
+              <div className="d-flex justify-content-between align-items-center">
+                <h5>Subtotal :</h5>
+                <span> {totalPrice}</span>
+              </div>
+              <div className="d-flex justify-content-between align-items-center">
+                <h5>Total :</h5>
+                <span> {totalPrice}</span>
+              </div>
+
+              <button className="btn btn-primary mt-4">checkout</button>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );
