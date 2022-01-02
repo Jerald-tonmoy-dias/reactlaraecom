@@ -5,6 +5,7 @@ import Collection from "../components/frontend/Collection";
 import ViewFrontendProduct from "../components/frontend/ViewFrontendProdect.js";
 import ProductDetails from "../components/frontend/ProductDetails";
 import Cart from "../components/frontend/Cart";
+import Checkout from "../components/frontend/Checkout";
 
 const publicRouteFile = [
   { path: "/", exact: true, name: "Home", component: Home },
@@ -33,6 +34,12 @@ const publicRouteFile = [
     exact: true,
     name: "Cart",
     component: Cart,
+  },
+  {
+    path: "/checkout",
+    exact: true,
+    name: "Checkout",
+    component: Checkout,
   },
 ];
 

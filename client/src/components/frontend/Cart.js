@@ -217,7 +217,9 @@ export default function Cart(props) {
                 <span> {totalPrice}</span>
               </div>
 
-              <button className="btn btn-primary mt-4">checkout</button>
+              <Link to={"/checkout"} className="btn btn-primary mt-4">
+                checkout
+              </Link>
             </div>
           </div>
         </div>
