@@ -111,74 +111,97 @@ export default function Cart(props) {
   } else {
     if (cart.length > 0) {
       cart_HTML = (
-        <table className="table table-bordered table-striped">
-          <thead>
-            <tr>
-              <th>Image</th>
-              <th>Product</th>
-              <th>Price</th>
-              <th>Quantity</th>
-              <th>Total Price</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {cart.map((item, index) => {
-              totalPrice +=
-                parseInt(item.product.selling_price) *
-                parseInt(item.product_qty);
-              return (
-                <>
-                  <tr key={index}>
-                    <td>
-                      <img
-                        src={`${BASE_URL}${item.product.image}`}
-                        width={50}
-                        height={50}
-                      />
-                    </td>
-                    <td>{item.product.name}</td>
-                    <td>{item.product.selling_price}</td>
-                    <td>
-                      <div className="input-group d-flex">
+        <>
+          <table className="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total Price</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {cart.map((item, index) => {
+                totalPrice +=
+                  parseInt(item.product.selling_price) *
+                  parseInt(item.product_qty);
+                return (
+                  <>
+                    <tr key={index}>
+                      <td>
+                        <img
+                          src={`${BASE_URL}${item.product.image}`}
+                          width={50}
+                          height={50}
+                        />
+                      </td>
+                      <td>{item.product.name}</td>
+                      <td>{item.product.selling_price}</td>
+                      <td>
+                        <div className="input-group d-flex">
+                          <button
+                            type="button"
+                            className="input-group-text"
+                            onClick={() => handleDecreament(item.id)}
+                          >
+                            -
+                          </button>
+                          <span
+                            type="text"
+                            className="form-control text-center"
+                          >
+                            {item.product_qty}
+                          </span>
+                          <button
+                            type="button"
+                            className="input-group-text"
+                            onClick={() => handleIncreament(item.id)}
+                          >
+                            +
+                          </button>
+                        </div>
+                      </td>
+                      <td>
+                        {parseInt(item.product.selling_price) *
+                          parseInt(item.product_qty)}
+                      </td>
+                      <td>
                         <button
+                          onClick={(e) => handledeleteCart(e, item.id)}
+                          className="btn-sm btn-danger"
                           type="button"
-                          className="input-group-text"
-                          onClick={() => handleDecreament(item.id)}
                         >
-                          -
+                          remove
                         </button>
-                        <span type="text" className="form-control text-center">
-                          {item.product_qty}
-                        </span>
-                        <button
-                          type="button"
-                          className="input-group-text"
-                          onClick={() => handleIncreament(item.id)}
-                        >
-                          +
-                        </button>
-                      </div>
-                    </td>
-                    <td>
-                      {parseInt(item.product.selling_price) *
-                        parseInt(item.product_qty)}
-                    </td>
-                    <td>
-                      <button
-                        onClick={(e) => handledeleteCart(e, item.id)}
-                        className="btn-sm btn-danger"
-                        type="button"
-                      >
-                        remove
-                      </button>
-                    </td>
-                  </tr>
-                </>
-              );
-            })}
-          </tbody>
-        </table>
+                      </td>
+                    </tr>
+                  </>
+                );
+              })}
+            </tbody>
+          </table>
+          <div className="row justify-content-end mt-4">
+            <div className="col-12 col-md-4">
+              <div className="card p-4">
+                <div className="d-flex justify-content-between align-items-center">
+                  <h5>Subtotal :</h5>
+                  <span> {totalPrice}</span>
+                </div>
+                <div className="d-flex justify-content-between align-items-center">
+                  <h5>Total :</h5>
+                  <span> {totalPrice}</span>
+                </div>
+
+                <Link to={"/checkout"} className="btn btn-primary mt-4">
+                  checkout
+                </Link>
+              </div>
+            </div>
+          </div>
+        </>
       );
     } else {
       cart_HTML = (
@@ -204,25 +227,7 @@ export default function Cart(props) {
           </ol>
         </nav>
 
-        <div className="card mt-4">{cart_HTML}</div>
-        <div className="row justify-content-end mt-4">
-          <div className="col-12 col-md-4">
-            <div className="card p-4">
-              <div className="d-flex justify-content-between align-items-center">
-                <h5>Subtotal :</h5>
-                <span> {totalPrice}</span>
-              </div>
-              <div className="d-flex justify-content-between align-items-center">
-                <h5>Total :</h5>
-                <span> {totalPrice}</span>
-              </div>
-
-              <Link to={"/checkout"} className="btn btn-primary mt-4">
-                checkout
-              </Link>
-            </div>
-          </div>
-        </div>
+        {cart_HTML}
       </div>
     </>
   );
