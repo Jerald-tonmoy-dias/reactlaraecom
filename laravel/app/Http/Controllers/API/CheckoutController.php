@@ -44,8 +44,8 @@ class CheckoutController extends Controller
                 $order->state = $req->state;
                 $order->zipcode = $req->zipcode;
 
-                $order->payment_mode = 'COD';
-                // $order->payment_id = 'COD';
+                $order->payment_mode = $req->payment_mode;
+                $order->payment_id = $req->payment_id;
                 $order->tracking_no = 'reactecom' . rand(11111, 9999);
                 // $order->status = $req->status;
                 // $order->remark = $req->remark;
@@ -79,6 +79,41 @@ class CheckoutController extends Controller
                 return response()->json([
                     'status' => 200,
                     'message' => 'Order place successfully'
+                ]);
+            }
+        } else {
+            return response()->json([
+                'status' => 401,
+                'message' => 'Please login first'
+            ]);
+        }
+    }
+
+    public function validateorder(Request $req)
+    {
+        if (auth('sanctum')->check()) {
+
+            $validator = Validator::make($req->all(), [
+                'firstname' => 'required|max:191',
+                'lastname' => 'required|max:191',
+                'phone' => 'required|max:191',
+                'email' => 'required|max:191',
+                'address' => 'required|max:191',
+                'city' => 'required|max:191',
+                'state' => 'required|max:191',
+                'zipcode' => 'required|max:191',
+            ]);
+
+            if ($validator->fails()) {
+
+                return response()->json([
+                    'error' => $validator->messages(),
+                    'status' => 422
+                ]);
+            } else {
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'form validated successfully'
                 ]);
             }
         } else {

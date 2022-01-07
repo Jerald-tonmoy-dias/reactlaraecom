@@ -7,7 +7,6 @@ import ViewCategory from "../components/admin/category/ViewCategory";
 import AddProduct from "../components/admin/product/AddProduct";
 import ViewProduct from "../components/admin/product/ViewProduct";
 import EditProduct from "../components/admin/product/EditProduct";
-import ThankYou from "../components/frontend/ThankYou";
 
 const routesFile = [
   { path: "/admin", exact: true, name: "Admin" },
@@ -58,12 +57,6 @@ const routesFile = [
     exact: true,
     name: "EditProduct",
     component: EditProduct,
-  },
-  {
-    path: "/thank-you",
-    exact: true,
-    name: "ThankYou",
-    component: ThankYou,
   },
 ];
 

@@ -7,7 +7,7 @@ export default function Cart(props) {
   const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(false);
   const [quantity, setQuantity] = useState(1);
-  const history = useHistory;
+  const history = useHistory();
   let totalPrice = 0;
   if (!localStorage.getItem("auth_token")) {
     swal({

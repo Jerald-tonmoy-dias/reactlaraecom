@@ -37,6 +37,7 @@ Route::delete('/delete-cart-item/{cart_idd}', [CartController::class, 'deleteCar
 
 // checkout 
 Route::post('/place-order', [CheckoutController::class, 'placeOrder']);
+Route::post('/validate-order', [CheckoutController::class, 'validateorder']);
 
 
 // for admin
