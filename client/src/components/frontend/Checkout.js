@@ -118,14 +118,6 @@ export default function Checkout() {
                     });
                     setError([]);
                     history.push("/thankyou");
-                  } else if (res.data.status === 422) {
-                    swal({
-                      title: "all fields are required",
-                      text: res.data.message,
-                      icon: "error",
-                    });
-
-                    setError(res.data.error);
                   }
                 });
               },
@@ -143,13 +135,6 @@ export default function Checkout() {
             };
             var rzp = new window.Razorpay(options);
             rzp.open();
-
-            // swal({
-            //   title: "Order placed successfully",
-            //   text: res.data.message,
-            //   icon: "success",
-            // });
-            // history.push("/thankyou");
           } else if (res.data.status === 422) {
             swal({
               title: "all fields are required",
@@ -160,10 +145,7 @@ export default function Checkout() {
             setError(res.data.error);
           }
         });
-
         break;
-      // case "paypal":
-      //   break;
     }
   };
 
