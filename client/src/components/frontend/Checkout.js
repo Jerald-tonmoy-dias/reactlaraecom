@@ -3,6 +3,7 @@ import swal from "sweetalert";
 import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { BASE_URL } from "../../Base_url";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 export default function Checkout() {
   const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -16,6 +17,8 @@ export default function Checkout() {
     city: "",
     state: "",
     zipcode: "",
+    payment_mode: "",
+    payment_id: "",
   });
 
   const [error, setError] = useState([]);
@@ -164,140 +167,237 @@ export default function Checkout() {
     if (cart.length > 0) {
       checkout_HTML = (
         <>
+          {/* modal */}
+          <div
+            class="modal fade"
+            id="exampleModalToggle"
+            aria-hidden="true"
+            aria-labelledby="exampleModalToggleLabel"
+            tabindex="-1"
+          >
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <PayPalScriptProvider
+                    options={{
+                      "client-id":
+                        "AWOafqislzl8zx6-w5BwIOu9p-7DXKNt3Ly4hGzXYNRYBKJkY_yrUcAYSc5RP6YFz_ckikuYoDoBs9NK",
+                    }}
+                  >
+                    <PayPalButtons
+                      // for getting the state value
+                      forceReRender={[checkoutInput]}
+                      // createOrder
+                      createOrder={(data, actions) => {
+                        return actions.order.create({
+                          purchase_units: [
+                            {
+                              amount: {
+                                value: "1", // Can reference variables or functions. Example: `value: document.getElementById('...').value`
+                              },
+                            },
+                          ],
+                        });
+                      }}
+                      // Finalize the transaction after payer approval
+                      onApprove={(data, actions) => {
+                        return actions.order
+                          .capture()
+                          .then(function (orderData) {
+                            const paypal_data = {
+                              firstname: checkoutInput.firstname,
+                              lastname: checkoutInput.lastname,
+                              phone: checkoutInput.phone,
+                              email: checkoutInput.email,
+                              address: checkoutInput.address,
+                              city: checkoutInput.city,
+                              state: checkoutInput.state,
+                              zipcode: checkoutInput.zipcode,
+                              payment_mode: "paypal",
+                              payment_id: "",
+                            };
+                            let transaction =
+                              orderData.purchase_units[0].payments.captures[0]
+                                .id;
+                            paypal_data.payment_id = transaction;
+                            // console.log("this from latest value", paypal_data);
+                            axios
+                              .post(`api/place-order`, paypal_data)
+                              .then((res) => {
+                                if (res.data.status === 200) {
+                                  swal({
+                                    title: "Order placed successfully",
+                                    text: res.data.message,
+                                    icon: "success",
+                                  });
+                                  setError([]);
+                                  history.push("/thankyou");
+                                } else if (res.data.status === 422) {
+                                  swal({
+                                    title: "all fields are required",
+                                    text: res.data.message,
+                                    icon: "error",
+                                  });
+
+                                  setError(res.data.error);
+                                }
+                              });
+                          });
+                      }}
+                    />
+                  </PayPalScriptProvider>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* basic information */}
           <div className="row py-4">
             <div className="col-lg-7">
               <div className="card">
                 <div className="card-header">
                   <h4>Basic Information</h4>
                 </div>
-                <div className="row card-body">
-                  <div className="col-md-6">
-                    <div className="form-group mb-3">
-                      <label>First Name</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        onChange={handleCheckInput}
-                        name="firstname"
-                        value={checkoutInput.firstname}
-                      />
-                      <span className="text-danger">{error.firstname}</span>
+                <form>
+                  <div className="row card-body">
+                    <div className="col-md-6">
+                      <div className="form-group mb-3">
+                        <label>First Name</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          onChange={handleCheckInput}
+                          name="firstname"
+                          value={checkoutInput.firstname}
+                        />
+                        <span className="text-danger">{error.firstname}</span>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group mb-3">
+                        <label>Last Name</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          onChange={handleCheckInput}
+                          name="lastname"
+                          value={checkoutInput.lastname}
+                        />
+                        <span className="text-danger">{error.lastname}</span>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group mb-3">
+                        <label>Phone Number</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          onChange={handleCheckInput}
+                          name="phone"
+                          value={checkoutInput.phone}
+                        />
+                        <span className="text-danger">{error.phone}</span>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group mb-3">
+                        <label>Email Address</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          onChange={handleCheckInput}
+                          name="email"
+                          value={checkoutInput.email}
+                        />
+                        <span className="text-danger">{error.email}</span>
+                      </div>
+                    </div>
+                    <div className="col-md-12">
+                      <div className="form-group mb-3">
+                        <label>Full Address</label>
+                        <textarea
+                          row={3}
+                          className="form-control"
+                          onChange={handleCheckInput}
+                          name="address"
+                          value={checkoutInput.address}
+                        ></textarea>
+                        <span className="text-danger">{error.address}</span>
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="form-group mb-3">
+                        <label>City</label>
+                        <input
+                          className="form-control"
+                          onChange={handleCheckInput}
+                          name="city"
+                          value={checkoutInput.city}
+                        />
+                        <span className="text-danger">{error.city}</span>
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="form-group mb-3">
+                        <label>State</label>
+                        <input
+                          className="form-control"
+                          onChange={handleCheckInput}
+                          name="state"
+                          value={checkoutInput.state}
+                        />
+                        <span className="text-danger">{error.state}</span>
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="form-group mb-3">
+                        <label>Zip code</label>
+                        <input
+                          className="form-control"
+                          onChange={handleCheckInput}
+                          name="zipcode"
+                          value={checkoutInput.zipcode}
+                        />
+                        <span className="text-danger">{error.zipcode}</span>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group mb-3">
+                        <button
+                          className="btn btn-primary"
+                          type="button"
+                          onClick={(e) => handleSubmit(e, "cod")}
+                        >
+                          Place order
+                        </button>
+                        <button
+                          className="btn btn-primary ms-4"
+                          type="button"
+                          onClick={(e) => handleSubmit(e, "razorpay")}
+                        >
+                          razorpay
+                        </button>
+                        <button
+                          className="btn btn-primary ms-4"
+                          type="button"
+                          data-bs-toggle="modal"
+                          href="#exampleModalToggle"
+                          onClick={(e) => e.preventDefault()}
+                        >
+                          paypal
+                        </button>
+                      </div>
                     </div>
                   </div>
-                  <div className="col-md-6">
-                    <div className="form-group mb-3">
-                      <label>Last Name</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        onChange={handleCheckInput}
-                        name="lastname"
-                        value={checkoutInput.lastname}
-                      />
-                      <span className="text-danger">{error.lastname}</span>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group mb-3">
-                      <label>Phone Number</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        onChange={handleCheckInput}
-                        name="phone"
-                        value={checkoutInput.phone}
-                      />
-                      <span className="text-danger">{error.phone}</span>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group mb-3">
-                      <label>Email Address</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        onChange={handleCheckInput}
-                        name="email"
-                        value={checkoutInput.email}
-                      />
-                      <span className="text-danger">{error.email}</span>
-                    </div>
-                  </div>
-                  <div className="col-md-12">
-                    <div className="form-group mb-3">
-                      <label>Full Address</label>
-                      <textarea
-                        row={3}
-                        className="form-control"
-                        onChange={handleCheckInput}
-                        name="address"
-                        value={checkoutInput.address}
-                      ></textarea>
-                      <span className="text-danger">{error.address}</span>
-                    </div>
-                  </div>
-                  <div className="col-md-4">
-                    <div className="form-group mb-3">
-                      <label>City</label>
-                      <input
-                        className="form-control"
-                        onChange={handleCheckInput}
-                        name="city"
-                        value={checkoutInput.city}
-                      />
-                      <span className="text-danger">{error.city}</span>
-                    </div>
-                  </div>
-                  <div className="col-md-4">
-                    <div className="form-group mb-3">
-                      <label>State</label>
-                      <input
-                        className="form-control"
-                        onChange={handleCheckInput}
-                        name="state"
-                        value={checkoutInput.state}
-                      />
-                      <span className="text-danger">{error.state}</span>
-                    </div>
-                  </div>
-                  <div className="col-md-4">
-                    <div className="form-group mb-3">
-                      <label>Zip code</label>
-                      <input
-                        className="form-control"
-                        onChange={handleCheckInput}
-                        name="zipcode"
-                        value={checkoutInput.zipcode}
-                      />
-                      <span className="text-danger">{error.zipcode}</span>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group mb-3">
-                      <button
-                        className="btn btn-primary"
-                        type="button"
-                        onClick={(e) => handleSubmit(e, "cod")}
-                      >
-                        Place order
-                      </button>
-                      <button
-                        className="btn btn-primary ms-4"
-                        type="button"
-                        onClick={(e) => handleSubmit(e, "razorpay")}
-                      >
-                        razorpay
-                      </button>
-                      <button
-                        className="btn btn-primary ms-4"
-                        type="button"
-                        onClick={(e) => handleSubmit(e, "paypal")}
-                      >
-                        paypal
-                      </button>
-                    </div>
-                  </div>
-                </div>
+                </form>
               </div>
             </div>
             <div className="col-lg-5">

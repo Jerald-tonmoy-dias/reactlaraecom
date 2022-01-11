@@ -105,7 +105,6 @@ class CheckoutController extends Controller
             ]);
 
             if ($validator->fails()) {
-
                 return response()->json([
                     'error' => $validator->messages(),
                     'status' => 422
